@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Live Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+  <body>
+    <h1>Live Dashboard</h1>
+    <div id="chart"></div>
+    <script>
+      var data = {
+        x: [], // time series
+        y: [], // actual data
+        yhat: [], // predicted data
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: 'Actual'
+      };
+      var data2 = {
+        x: [], // time series
+        y: [], // predicted data
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: 'Predicted'
+      };
+      var layout = {
+        xaxis: {
+          title: 'Time'
+        },
+        yaxis: {
+          title: 'Data'
+        }
+      };
+      var chart = Plotly.newPlot('chart', [data, data2], layout);
+
+      function updateData(newData) {
+        data.x.push(newData.timestamp);
+        data.y.push(newData.actual);
+        data.yhat.push(newData.predicted);
+        data2.x.push(newData.timestamp);
+        data2.y.push(newData.predicted);
+        Plotly.redraw(chart);
+      }
+    </script>
+  </body>
+</html>
